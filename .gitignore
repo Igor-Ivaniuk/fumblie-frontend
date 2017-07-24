@@ -27,3 +27,4 @@ bower_components
 
 # Distribution folder
 dist
+*.iml
