@@ -19,15 +19,22 @@
     var self = this;
 
    	$scope.triggerSendMail = function() {
-   		var mailBodyJson = {
-   			mailBody: $scope.firstname,
+   	/*	var mailBodyJson = {
+   			mailBody: $scope.firstname + "product IDs:" + $.cookie("cartCookie"),
    			mailSubject: "New Order"
-   		}
-   		sendMail(mailBodyJson);
+   		}*/
+
+      var bodyJson = {
+        "firstname": $scope.firstname,
+        "productIds": $.cookie("cartCookie")
+      }
+   		sendMail($scope.firstname, $.cookie("cartCookie"));
    	}
 
-    function sendMail(a) {
-   var mailJSON ={
+    $('.product-ids').val($.cookie("cartCookie"));
+
+    function sendMail(a, b) {
+  /* var mailJSON ={
         "key": "xe8cCGETdLSJyXupMsa7dA",
         "message": {
           "html": ""+a.mailBody,
@@ -57,9 +64,30 @@
         },
         "async": false,
         "ip_pool": "Main Pool"
-    };
-    var apiURL = "https://mandrillapp.com/api/1.0/messages/send.json";
+    };*/
+    //var apiURL = "https://mandrillapp.com/api/1.0/messages/send.json";
+    var mailJSON = {
+       "address": {
+    "city": "string",
+    "country": "string",
+    "id": 0,
+    "name": a,
+    "street": b,
+    "zipCode": "string"
+  },
+  "currency": "string",
+  "id": 0,
+  "orderItems": [
+    {
+      "id": 0,
+      "productId": 0,
+      "quantity": 0
+    }
+  ],
+  "totalAmount": 0
+}
 
+var apiURL = "https://fumblie-backend.herokuapp.com/order";
     $http({
         url: apiURL, 
         method: "POST",

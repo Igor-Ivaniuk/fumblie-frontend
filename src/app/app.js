@@ -40,6 +40,11 @@
         controller: 'HomeController',
         controllerAs: 'homeCtrl'
       })
+      .when('/checkout', {
+        templateUrl: 'app/checkout/checkout.html',
+        controller: 'CheckoutController',
+        controllerAs: 'checkoutCtrl'
+      })
       .otherwise({
         redirectTo: '/404'
       });

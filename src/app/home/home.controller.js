@@ -16,6 +16,7 @@
     .controller('HomeController', HomeController);
 
   function HomeController($scope, $http) {
+
     $http({
       method: 'GET',
       url: 'https://fumblie-backend.herokuapp.com/products'
@@ -25,9 +26,17 @@
         console.log("error: " + response);
       });
 
-    function addToCart() {
-      console.log('hello');
+
+    $scope.addToCart = function(event) {
+
+      if ($.cookie("cartCookie")) {
+        $.cookie('cartCookie', $.cookie("cartCookie") + "-" + event.target.id);
+      } else {
+        $.cookie('cartCookie', event.target.id);
+      }
+      
     }
+    
 
     this._init();
   }

@@ -6,12 +6,19 @@
   <section ng-repeat="product in products">
     <div class="title">
       <h3>{{product.title}}</h3>
+      <h6 id="{{product.id}}">{{product.id}}</h6>
       <span class="price">{{product.price}}</span>
     </div>
     <div class="call-to-action">
       <img src="{{product.image}}">
-      <button id="add-to-cart-{{product.id}}" ng-click="addToCart()">Add to cart</button>
+      <button id="{{product.id}}" data="{{product.id}}" ng-click="addToCart($event)">Add to cart</button>
     </div>
     <p class="description">{{product.description}}</p>
   </section>
+
+  <section>
+  <div class="call-to-action">
+    <a href="/checkout">Go to Checkout</a>
+  </div>
+</section>
 </md-content>

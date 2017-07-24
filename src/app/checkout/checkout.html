@@ -1,4 +1,17 @@
-<div ng-show="checkoutCtrl.pageReady">
-<input type="text" ng-model="firstname" value="Mariana" />
-<input type="button" ng-click="triggerSendMail()" />
+<div ng-show="checkoutCtrl.pageReady" class="home">
+	<section class="clearfix">
+		<div>
+			<label>Enter your name</label><br />
+			<input type="text" ng-model="firstname" value="Mariana" />
+		</div>
+		<div>
+			<label>Prduct Ids</label><br />
+			<input type="text" class="product-ids" value=""  readonly/>
+		</div>
+		<br />
+	<div class="call-to-action">
+		<button id="submit-order" ng-click="triggerSendMail()">Submit Order</button>
+	</div>
+</section>
+<br />
 </div>
