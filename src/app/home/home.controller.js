@@ -18,12 +18,16 @@
   function HomeController($scope, $http) {
     $http({
       method: 'GET',
-      url: 'data/data.json'
+      url: 'https://fumblie-backend.herokuapp.com/products'
     }).then(function successCallback(response) {
         $scope.products = response['data'].products;
       }, function errorCallback(response) {
         console.log("error: " + response);
       });
+
+    function addToCart() {
+      console.log('hello');
+    }
 
     this._init();
   }
