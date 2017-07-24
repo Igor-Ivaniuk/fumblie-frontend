@@ -15,13 +15,15 @@
     .module('app')
     .controller('HomeController', HomeController);
 
-  function HomeController($mdToast) {
-    var vm = this;
-    vm.toast = $mdToast;
-
-    $mdToast.show(
-      $mdToast.simple()
-        .textContent('Welcome to Angular Starter Kit!'));
+  function HomeController($scope, $http) {
+    $http({
+      method: 'GET',
+      url: 'data/data.json'
+    }).then(function successCallback(response) {
+        $scope.products = response['data'].products;
+      }, function errorCallback(response) {
+        console.log("error: " + response);
+      });
 
     this._init();
   }
@@ -31,22 +33,7 @@
    */
   HomeController.prototype._init = function() {
     this.pageReady = true;
+
   };
 
-  HomeController.prototype.next = function(isValid) {
-    var vm = this;
-    // If the form is not validated, show an error message
-    if (!isValid) {
-      vm.toast.show(
-        vm.toast.simple()
-          .textContent('You must fill all the required information first.')
-          .hideDelay(0));
-
-      return;
-    }
-
-    vm.selectedIndex += 1;
-  };
-
-  HomeController.$inject = ['$mdToast'];
 })();

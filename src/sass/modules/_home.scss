@@ -1,3 +1,66 @@
-h1.product-name {
-  text-transform: capitalize;
+md-content.md-default-theme, 
+md-content{
+		color: $secondary;
+}
+.page{
+	font-family: 'Work Sans', sans-serif;
+	font-size: 17px;
+	line-height: 22px;
+	padding: 15px;
+}
+
+.home{
+	.titles{
+		float: right;
+	}
+	h1{
+		color: $primary;
+		font-family: "Amatic SC", cursive;
+		font-size: 96px;
+		font-weight: bold;
+		letter-spacing: -3px;
+		line-height: 96px;
+	}
+	h2, h3{
+		font-size: 36px;
+		font-weight: 800;
+		line-height: 42px;
+	}
+	section{
+		clear: both;
+		margin-top: 10px;
+		margin-bottom: 10px;
+	}
+	h3{
+		color: $primary;
+		font-weight: bold;
+	}
+	.price{
+		font-family: 'Amatic SC', cursive;
+		color: $call-to-action;
+		font-size: 48px;
+	}
+	.title,
+	.call-to-action,
+	.description{
+		float: left;
+		margin-right: 10px;
+	}
+	.call-to-action{
+		img{
+			border-radius: 5px 5px 0 0;
+			max-width: 255px;
+			display: block;
+		}
+		button{
+			background-color: $call-to-action;
+			border: 0;
+			border-radius: 0 0 5px 5px;
+			height: 50px;
+			width: 100%;
+			color: $white;
+    		text-align: left;
+    		padding: 0 10px;
+    	}
+	}
 }
