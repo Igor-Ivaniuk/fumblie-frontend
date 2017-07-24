@@ -13,3 +13,9 @@ before_script:
 script:
   - npm run test-single-run --reporters=dots
   - node_modules/.bin/protractor protractor.conf.js --browser=firefox
+deploy:
+  provider: heroku
+  app: fumblie-frontend
+  on: master
+  api_key:
+    secure: "6dbf52d0-96e7-4ae2-a964-c1a31cdaffa8"
