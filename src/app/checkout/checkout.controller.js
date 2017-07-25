@@ -40,12 +40,12 @@
           "html": ""+a.mailBody,
           "text": ""+a.mailBody,
           "subject": "New Order",
-          "from_email": "orders@ugence.com",
+          "from_email": "orders@gmail.com",
           "from_name": "Orders",
           "to": [
             {
-              "email": "mariana.kyrkosh@gmail.com",
-              "name": "Mariana Kyrkosh",
+              "email": "sdfsdf@gmail.com",
+              "name": "sdfsf sdfsdf",
               "type": "to"
             }
           ],
