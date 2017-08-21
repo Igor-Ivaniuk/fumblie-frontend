@@ -15,85 +15,124 @@
     .module('app')
     .controller('CheckoutController', CheckoutController);
 
-  function CheckoutController($scope, $http) {
+  function CheckoutController($scope, $http, $q) {
     var self = this;
-
-   	$scope.triggerSendMail = function() {
-   	/*	var mailBodyJson = {
-   			mailBody: $scope.firstname + "product IDs:" + $.cookie("cartCookie"),
-   			mailSubject: "New Order"
-   		}*/
-
-      var bodyJson = {
-        "firstname": $scope.firstname,
-        "productIds": $.cookie("cartCookie")
-      }
-   		sendMail($scope.firstname, $.cookie("cartCookie"));
-   	}
+    $scope.products = [];
 
     $('.product-ids').val($.cookie("cartCookie"));
 
-    function sendMail(a, b) {
-  /* var mailJSON ={
-        "key": "xe8cCGETdLSJyXupMsa7dA",
-        "message": {
-          "html": ""+a.mailBody,
-          "text": ""+a.mailBody,
-          "subject": "New Order",
-          "from_email": "orders@gmail.com",
-          "from_name": "Orders",
-          "to": [
-            {
-              "email": "sdfsdf@gmail.com",
-              "name": "sdfsf sdfsdf",
-              "type": "to"
-            }
-          ],
-          "important": false,
-          "track_opens": null,
-          "track_clicks": null,
-          "auto_text": null,
-          "auto_html": null,
-          "inline_css": null,
-          "url_strip_qs": null,
-          "preserve_recipients": null,
-          "view_content_link": null,
-          "tracking_domain": null,
-          "signing_domain": null,
-          "return_path_domain": null
-        },
-        "async": false,
-        "ip_pool": "Main Pool"
-    };*/
-    //var apiURL = "https://mandrillapp.com/api/1.0/messages/send.json";
-    var mailJSON = {
-       "address": {
-    "city": "string",
-    "country": "string",
-    "id": 0,
-    "name": a,
-    "street": b,
-    "zipCode": "string"
-  },
-  "currency": "string",
-  "id": 0,
-  "orderItems": [
-    {
-      "id": 0,
-      "productId": 0,
-      "quantity": 0
-    }
-  ],
-  "totalAmount": 0
-}
+   	$scope.triggerSendMail = function() {
+      var promise = getProducts($.cookie("cartCookie").split("-"));
 
-var apiURL = "https://fumblie-backend.herokuapp.com/order";
-    $http({
-        url: apiURL, 
-        method: "POST",
-        data: mailJSON
-    });
-  }
+      promise.then(function(){
+console.log($scope.products);
+
+        var orders = [],
+            totalAmount = 0;
+        
+        $.each($scope.products, function(index, product){
+          var order = {
+            "id": index,
+            "product": product,
+            "quantity": 1
+          };
+
+          orders.push(JSON.stringify(order));
+
+          totalAmount += product.price;
+        });
+
+/*
+        var bodyJson = {
+          "address": {
+            "city": "Munich",
+            "country": "Germany",
+            "id": 1,
+            "name": $scope.firstname,
+            "street": "Sonnestrasse 15",
+            "zipCode": "80331"
+          },
+          "currency": "EUR",
+          "id": 2,
+          "orderItems": [
+              {
+                "id": 1,
+                "product": {
+                  "description": "test",
+                  "id": 1,
+                  "image": "string",
+                  "price": 0,
+                  "title": "string"
+                },
+                "quantity": 0
+              }
+            ],
+          "totalAmount": 0
+        }
+/*
+        var bodyJson = {
+          "address": {
+            "city": "Munich",
+            "country": "Germany",
+            "id": 1,
+            "name": $scope.firstname,
+            "street": "Sonnestrasse 15",
+            "zipCode": "80331"
+          },
+          "currency": "EUR",
+          "id": 2,
+          "orderItems": orders,
+          "totalAmount": totalAmount
+        }
+*/
+//        sendMail(bodyJson);
+      });
+   	}
+
+    function getProducts(ids){
+      var deferred = $q.defer(),
+          products = [],
+          exit = false;
+
+      $.each(ids, function(index, value){
+          getProduct(value)
+            .then(function(product){
+              if(product){
+                products.push(product);
+                $scope.products = products;
+              }
+            });
+
+        if(index === ids.length - 1){
+          exit = true;
+        }
+      });
+
+      if(exit){
+        deferred.resolve(products);
+        return deferred.promise;
+      }
+    };
+
+    function getProduct(id){
+      var deferred = $q.defer();
+      $http.get('https://fumblie-backend.herokuapp.com/products/' + id)
+           .then(function(response){
+              deferred.resolve(JSON.stringify(response.data.product));
+           }, function(msg){
+              deferred.reject;
+           });
+      return deferred.promise;
+    }
+
+    function sendMail(bodyJson) {
+      var apiURL = "https://fumblie-backend.herokuapp.com/order";
+      $http({
+          url: apiURL, 
+          method: "POST",
+          data: bodyJson
+      });
+    }
 
     this._init();
   }

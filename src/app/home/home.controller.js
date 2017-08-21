@@ -21,10 +21,10 @@
       method: 'GET',
       url: 'https://fumblie-backend.herokuapp.com/products'
     }).then(function successCallback(response) {
-        $scope.products = response['data'].products;
-      }, function errorCallback(response) {
-        console.log("error: " + response);
-      });
+      $scope.products = response['data'].products;
+    }, function errorCallback(response) {
+      console.log("error: " + response);
+    });
 
 
     $scope.addToCart = function(event) {
